@@ -5,11 +5,14 @@ import UpdatePassword from './components/auth/UpdatePassword';
 import VerifyCode from './components/auth/VerifyCode';
 import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 
 
 function App() {
   return (
     <BrowserRouter>
+        <Header />
       <Routes>
         <Route path='/login' element={<LoginForm />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
@@ -17,6 +20,7 @@ function App() {
         <Route path="/reset-password" element={<UpdatePassword />} />
         <Route path="/verify-code" element={<VerifyCode />} /> 
       </Routes>
+        <Footer />
     </BrowserRouter>
   );
 }
