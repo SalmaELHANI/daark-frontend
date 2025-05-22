@@ -7,20 +7,22 @@ import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import Home from './pages/Home';
 
 
 function App() {
   return (
     <BrowserRouter>
-        <Header />
+      <Header />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/reset-password" element={<UpdatePassword />} />
-        <Route path="/verify-code" element={<VerifyCode />} /> 
+        <Route path="/verify-code" element={<VerifyCode />} />
       </Routes>
-        <Footer />
+      <Footer />
     </BrowserRouter>
   );
 }
