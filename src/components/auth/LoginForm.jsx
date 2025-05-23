@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react'; // Icônes pour afficher/masquer le mot de passe
 
 const LoginForm = () => {
     const [LoginData, setLoginData] = useState({
         email: "",
         password: "",
     });
+
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center p-4">
@@ -81,6 +84,7 @@ const LoginForm = () => {
 
                     <div className="w-full flex-1 mt-8">
                         <div className="mx-auto max-w-xs">
+                            {/* Champ Email */}
                             <input
                                 className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                 type="email"
@@ -88,16 +92,27 @@ const LoginForm = () => {
                                 value={LoginData.email}
                                 onChange={(e) => setLoginData({ ...LoginData, email: e.target.value })}
                             />
-                            <input
-                                className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                                type="password"
-                                placeholder="Password"
-                                value={LoginData.password}
-                                onChange={(e) => setLoginData({ ...LoginData, password: e.target.value })}
-                            />
+
+                            {/* Champ Password avec icône œil */}
+                            <div className="relative mt-5">
+                                <input
+                                    className="w-full px-8 py-4 pr-12 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                    type={showPassword ? 'text' : 'password'}
+                                    placeholder="Password"
+                                    value={LoginData.password}
+                                    onChange={(e) => setLoginData({ ...LoginData, password: e.target.value })}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                </button>
+                            </div>
+
                             <div className="text-sm mt-4">
                                 Mot de passe oublié ?{' '}
-
                                 <Link
                                     to="/verify-email"
                                     className="text-[#348AC7] font-medium hover:underline"
@@ -106,6 +121,7 @@ const LoginForm = () => {
                                 </Link>
                             </div>
 
+                            {/* Bouton Log In */}
                             <button className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white w-full py-4 rounded-lg hover:opacity-90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -133,14 +149,16 @@ const LoginForm = () => {
                                     S’inscrire
                                 </Link>
                             </div>
-
                         </div>
+
+                        {/* Ligne de séparation */}
                         <div className="my-12 border-b text-center">
                             <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
                                 Or Log In with Google
                             </div>
                         </div>
 
+                        {/* Bouton Google */}
                         <div className="flex flex-col items-center">
                             <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:opacity-90">
                                 <div className="bg-white p-2 rounded-full">
@@ -167,7 +185,6 @@ const LoginForm = () => {
                             </button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

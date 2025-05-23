@@ -3,29 +3,24 @@ import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react'
 
-const VerifyCode = () => {
+const VerifyCodePhone = () => {
   const [code, setCode] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
 
   const from = location.state?.from;
-  const email = location.state?.email;
+  const phone = location.state?.phone;
 
   useEffect(() => {
-    if (!from || !email) {
-      navigate('/verify-email');
+    if (!from || !phone) {
+      navigate('/verifyphone');
     }
-  }, [from, email, navigate]);
+  }, [from, phone, navigate]);
 
   
   const handleVerify = () => {
     if (code.trim().length === 6) {
-      if (from === 'signup') {
-        navigate('/');
-      } else if (from === 'forgot-password') {
-        navigate('/reset-password', { state: { email } });
-      }
-
+        navigate('/publier-annonce');
     } else {
       alert('Veuillez entrer un code à 6 chiffres.');
     }
@@ -41,7 +36,7 @@ const VerifyCode = () => {
         <div className="flex flex-col items-center">
           <h1 className="text-2xl xl:text-3xl font-extrabold mb-6">Vérification du Code</h1>
           <p className="text-sm text-gray-600 mb-6 text-center">
-            Entrez le code à 6 chiffres que vous avez reçu par email.
+            Entrez le code à 6 chiffres que vous avez reçu par numéro.
           </p>
 
           <input
@@ -74,12 +69,12 @@ const VerifyCode = () => {
           </div>
 
           <div className="text-sm mt-2 text-gray-700">
-            Vous avez fait une erreur d’email ?{' '}
+            Vous avez fait une erreur de numéro ?{' '}
             <Link
               to="/verify-email"
               className="text-[#348AC7] font-medium hover:underline"
             >
-              Ressaisir l’email
+              Ressaisir le numéro
             </Link>
           </div>
         </div>
@@ -88,4 +83,4 @@ const VerifyCode = () => {
   );
 };
 
-export default VerifyCode;
+export default VerifyCodePhone;

@@ -5,7 +5,6 @@ const VerifyEmail = () => {
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
 
-
     const handleSend = () => {
         alert(`Email de vérification envoyé à : ${email}`);
         navigate('/verify-code', { state: { from: 'forgot-password', email } });

@@ -8,10 +8,15 @@ import RegisterForm from './components/auth/RegisterForm';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home';
+import VerifyPhone from './components/annonces/VerifyPhone';
+import DetailsAnnonce from './pages/AnnonceDetails';
+import AddAnnonceForm from './pages/PublishAnnonce';
+import VerifyCodePhone from './components/annonces/VerifyCodePhone';
 
 
 function App() {
   return (
+    
     <BrowserRouter>
       <Header />
       <Routes>
@@ -21,6 +26,13 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/reset-password" element={<UpdatePassword />} />
         <Route path="/verify-code" element={<VerifyCode />} />
+        <Route path="/publier-annonce" element={<AddAnnonceForm />} />        
+        <Route path="/verifyphone" element={<VerifyPhone />} />
+        <Route path="/detail-annonce" element={<DetailsAnnonce />} />
+        <Route path="/verify-code-phone" element={<VerifyCodePhone />} />
+
+        
+
       </Routes>
       <Footer />
     </BrowserRouter>

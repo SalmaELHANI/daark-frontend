@@ -1,5 +1,6 @@
-import {useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 const RegisterForm = () => {
     const navigate = useNavigate();
@@ -10,6 +11,9 @@ const RegisterForm = () => {
         password: "",
         confirmPassword: ""
     });
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const { firstName, lastName, email, password, confirmPassword } = RegisterData;
 
@@ -97,7 +101,6 @@ const RegisterForm = () => {
                             />
                         </g>
                     </svg>
-
                     <div className="w-full flex-1 mt-8">
                         <div className="mx-auto max-w-xs">
                             <input
@@ -106,36 +109,62 @@ const RegisterForm = () => {
                                 placeholder="First Name"
                                 name='firstName'
                                 value={RegisterData.firstName}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
                             <input
                                 className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                 type="text"
                                 placeholder="Last Name"
                                 name='lastName'
                                 value={RegisterData.lastName}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
                             <input
                                 className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                 type="email"
                                 placeholder="Email"
                                 name='email'
                                 value={RegisterData.email}
-                                onChange={handleChange} />
-                            <input
-                                className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                type="password"
-                                placeholder="Password"
-                                name='password'
-                                value={RegisterData.password}
                                 onChange={handleChange}
                             />
-                            <input
-                                className="w-full px-8 py-4 mb-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                                type="password"
-                                placeholder="Confirm Password"
-                                name='confirmPassword'
-                                value={RegisterData.confirmPassword}
-                                onChange={handleChange} />
+
+                            {/* Password avec œil */}
+                            <div className="relative mb-4">
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name='password'
+                                    placeholder="Password"
+                                    value={RegisterData.password}
+                                    onChange={handleChange}
+                                    className="w-full px-8 py-4 pr-12 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                                </button>
+                            </div>
+
+                            {/* Confirm Password avec œil */}
+                            <div className="relative mb-4">
+                                <input
+                                    type={showConfirmPassword ? 'text' : 'password'}
+                                    name='confirmPassword'
+                                    placeholder="Confirm Password"
+                                    value={RegisterData.confirmPassword}
+                                    onChange={handleChange}
+                                    className="w-full px-8 py-4 pr-12 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                >
+                                    {showConfirmPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+                                </button>
+                            </div>
 
                             <button
                                 className="mt-2 tracking-wide font-semibold bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white w-full py-4 rounded-lg hover:opacity-90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
@@ -156,7 +185,6 @@ const RegisterForm = () => {
                                     />
                                 </svg>
                                 <span className="ml-3">Create Account</span>
-
                             </button>
 
                             <div className="text-sm text-center mt-4">
@@ -168,7 +196,6 @@ const RegisterForm = () => {
                                     Se connecter
                                 </Link>
                             </div>
-
                         </div>
 
                         <div className="my-12 border-b text-center">
@@ -198,6 +225,7 @@ const RegisterForm = () => {
                                             fill="#ea4335"
                                         />
                                     </svg>
+
                                 </div>
                                 <span className="ml-4">Sign Up with Google</span>
                             </button>
@@ -205,7 +233,7 @@ const RegisterForm = () => {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 
