@@ -1,5 +1,5 @@
 import FilterBar from "../components/annonces/SearchFilter";
-import Cards from "./cards";
+import Cards from "./annonces/Cards";
 
 
 const Home = () => {
@@ -10,10 +10,10 @@ const Home = () => {
                 className="flex flex-col items-center justify-center text-white px-4 py-6 sm:py-10 md:py-10 bg-gradient-to-b from-[#7474BF] to-[#348AC7]"
             >
                 <h1 className="text-center text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 font-poppins">
-                    Search according to your needs
+                    Recherchez selon vos besoins
                 </h1>
                 <p className="text-base sm:text-lg text-center max-w-xl font-poppins ">
-                    Discover the best opportunities and make your dream become reality.
+                   Explorez, trouvez, emménagez. Votre nouveau chez-vous vous attend.
                 </p>
 
                 <div className="w-full max-w-3xl mt-6">
@@ -34,12 +34,13 @@ const Home = () => {
 
                 <div className="sm:w-1/2 w-full p-4 sm:p-5 text-center sm:text-left">
                     <h2 className="my-4 font-bold text-2xl sm:text-3xl md:text-4xl">
-                        About <span className="text-[#348AC7] font-poppins ">Our Company</span>
+                        À propos de <span className="text-[#348AC7] font-poppins ">Daark</span>
                     </h2>
                     <p className="text-gray-700 font-poppins text-sm sm:text-base">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid,
-                        commodi doloremque, fugiat illum magni minus nisi nulla numquam
-                        obcaecati placeat quia, repellat tempore voluptatum.
+                        Daark est une plateforme 100% marocaine spécialisée dans la location de logements.
+                        Que vous cherchiez un appartement, une maison ou un studio, nous mettons à votre 
+                        disposition les meilleures offres, adaptées à vos besoins et à votre budget.
+                        Notre mission est de simplifier votre recherche et de vous accompagner dans chaque étape de votre location.
                     </p>
                     <button className="mt-4 bg-[#348AC7] text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-[#348ac7cb] transition">
                         Get Started

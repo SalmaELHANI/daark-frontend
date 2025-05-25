@@ -1,4 +1,4 @@
-const CardUser = ({ annonce, onDelete }) => {
+const CardMyAnnonce = ({ annonce, onDelete }) => {
     return (
         <div className="transition-all duration-500 rounded overflow-hidden shadow-lg bg-white border border-[#7474BF] hover:shadow-2xl relative">
             <div className="relative">
@@ -26,4 +26,4 @@ const CardUser = ({ annonce, onDelete }) => {
     );
 };
 
-export default CardUser;
+export default CardMyAnnonce;
