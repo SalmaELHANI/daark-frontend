@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react'; // Icônes pour afficher/masquer le mot de passe
+import { Eye, EyeOff } from 'lucide-react';
 
 const LoginForm = () => {
     const [LoginData, setLoginData] = useState({
