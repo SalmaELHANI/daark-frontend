@@ -1,10 +1,33 @@
-const UserProfile = () => {
-    const firstName = 'Sarah';
-    const lastName = 'Johnson';
-    const phone = '+212 600-000000';
-    const email = 'sarah.johnson@example.com';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserProfile, logoutUser } from '../../store/admin/userSlice';
+import { useNavigate } from 'react-router-dom';
 
-    const initials = `${firstName[0]}${lastName[0]}`.toUpperCase();
+const UserProfile = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { profile, loading } = useSelector(state => state.user);
+
+    useEffect(() => {
+        dispatch(getUserProfile());
+    }, [dispatch]);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        dispatch(logoutUser());
+        navigate('/');
+    };
+
+    if (loading || !profile) {
+        return <div className="min-h-screen flex justify-center items-center">Chargement...</div>;
+    }
+
+    const firstName = profile?.username?.split(' ')[0] || '';
+    const lastName = profile?.username?.split(' ')[1] || '';
+    const phone = profile.telephone;
+    const email = profile.email;
+    const initials = `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase();
 
     return (
         <div className="flex items-center justify-center min-h-screen p-2 bg-gray-100">
@@ -20,14 +43,25 @@ const UserProfile = () => {
 
                 <div className="pt-16 pb-8 px-6 text-center">
                     <h3 className="text-xl font-bold text-gray-800">{firstName} {lastName}</h3>
-                    <p className="text-indigo-600 font-medium">{phone}</p>
+                    <p
+                        className={`font-medium ${phone ? 'text-indigo-600' : 'text-gray-400 italic cursor-pointer hover:underline'
+                            }`}
+                        onClick={() => {
+                            if (!phone) {
+                                navigate('/verifyphone', { state: { from: 'profile' } });
+                            }
+                        }}
+                    >
+                         {phone ? `0${phone.slice(-9)}` : 'Ajouter numéro'}
+                    </p>
+
                     <p className="text-gray-500 mt-1">{email}</p>
 
                     <div className="mt-8 flex justify-center space-x-3">
                         <button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
                             Mes Annonces
                         </button>
-                        <button className="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                        <button onClick={handleLogout} className="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
                             Se Déconnecter
                         </button>
                     </div>

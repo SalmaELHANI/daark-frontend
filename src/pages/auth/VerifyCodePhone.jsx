@@ -1,30 +1,30 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react'
 
 const VerifyCodePhone = () => {
   const [code, setCode] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
 
-  const from = location.state?.from;
-  const phone = location.state?.phone;
+  const stateFromLocation = location.state || {};
+  const savedData = JSON.parse(sessionStorage.getItem('verifyData') || '{}');
+  const from = stateFromLocation.from || savedData.from || 'publier-annonce';
 
-  useEffect(() => {
-    if (!from || !phone) {
-      navigate('/verifyphone');
-    }
-  }, [from, phone, navigate]);
-
-  
   const handleVerify = () => {
     if (code.trim().length === 6) {
+      console.log('from:', from);
+       sessionStorage.removeItem('verifyData');
+      if ((from?.trim() || '') === 'profile') {
+        navigate('/profil');
+      } else {
         navigate('/publier-annonce');
+      }
     } else {
       alert('Veuillez entrer un code à 6 chiffres.');
     }
   };
+
 
   const handleResend = () => {
     alert('Un nouveau code vous a été envoyé.');

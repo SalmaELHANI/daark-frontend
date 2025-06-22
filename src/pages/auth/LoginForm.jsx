@@ -1,14 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../store/admin/userSlice';
 
 const LoginForm = () => {
     const [LoginData, setLoginData] = useState({
         email: "",
         password: "",
     });
+    const dispatch = useDispatch();
+    const { loading, error } = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const resultAction = await dispatch(loginUser(LoginData));
+        if (loginUser.fulfilled.match(resultAction)) {
+            navigate('/');
+        }
+    };
+
+
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center p-4">
@@ -19,14 +34,14 @@ const LoginForm = () => {
                         preserveAspectRatio="xMidYMid meet">
 
                         <defs>
-                            <linearGradient id="grad1" x1="0" y1="1" x2="0" y2="0">
-                                <stop offset="0%" stop-color="#7474BF" />
-                                <stop offset="100%" stop-color="#348AC7" />
+                            <linearGradient id="gradRegister1" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0%" stopColor="#7474BF" />
+                                <stop offset="100%" stopColor="#348AC7" />
                             </linearGradient>
                         </defs>
 
                         <g transform="translate(0.000000,844.000000) scale(0.100000,-0.100000)"
-                            fill="url(#grad1)" stroke="none">
+                            fill="url(#gradRegister1)" stroke="none">
                             <path d="M18385 7256 c-16 -7 -39 -23 -50 -36 -20 -22 -20 -38 -23 -2584 -2
                             -1837 0 -2572 8 -2599 7 -25 22 -45 43 -57 30 -19 53 -20 370 -20 l337 0 38
                             34 37 34 5 591 5 590 35 37 c44 46 92 67 134 59 24 -6 176 -152 696 -670 407
@@ -120,9 +135,14 @@ const LoginForm = () => {
                                     Réinitialiser
                                 </Link>
                             </div>
+                            {error && (
+                                <div className="mt-2 text-sm text-red-500 text-center">
+                                    {error.message || "Login failed"}
+                                </div>
+                            )}
 
                             {/* Bouton Log In */}
-                            <button className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white w-full py-4 rounded-lg hover:opacity-90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
+                            <button onClick={handleLogin} disabled={loading} className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white w-full py-4 rounded-lg hover:opacity-90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"

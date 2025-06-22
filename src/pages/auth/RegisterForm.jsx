@@ -1,9 +1,13 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../store/admin/userSlice';
 
 const RegisterForm = () => {
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { loading, error, successMessage } = useSelector(state => state.user);
+
     const [RegisterData, setRegisterData] = useState({
         firstName: "",
         lastName: "",
@@ -22,12 +26,39 @@ const RegisterForm = () => {
         setRegisterData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!email || !firstName || !lastName || !password || password !== confirmPassword) {
             alert('Veuillez remplir tous les champs correctement.');
             return;
         }
-        navigate('/verify-code', { state: { from: 'signup', email } });
+
+        try {
+            const resultAction = await dispatch(registerUser({
+                username: firstName + " " + lastName,
+                email,
+                password
+            }));
+
+            if (registerUser.fulfilled.match(resultAction)) {
+                alert('Inscription réussie ! Vérifiez votre email.');
+                setRegisterData({
+                    firstName: "",
+                    lastName: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: ""
+                });
+
+            } else {
+                if (resultAction.payload) {
+                    alert('Erreur: ' + resultAction.payload.message || resultAction.payload);
+                } else {
+                    alert('Erreur inconnue lors de l\'inscription.');
+                }
+            }
+        } catch (err) {
+            alert('Erreur réseau ou serveur.');
+        }
     };
 
     return (
@@ -39,14 +70,14 @@ const RegisterForm = () => {
                         preserveAspectRatio="xMidYMid meet">
 
                         <defs>
-                            <linearGradient id="grad1" x1="0" y1="1" x2="0" y2="0">
-                                <stop offset="0%" stop-color="#7474BF" />
-                                <stop offset="100%" stop-color="#348AC7" />
+                            <linearGradient id="gradRegister1" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0%" stopColor="#7474BF" />
+                                <stop offset="100%" stopColor="#348AC7" />
                             </linearGradient>
                         </defs>
 
                         <g transform="translate(0.000000,844.000000) scale(0.100000,-0.100000)"
-                            fill="url(#grad1)" stroke="none">
+                            fill="url(#gradRegister1)" stroke="none">
                             <path d="M18385 7256 c-16 -7 -39 -23 -50 -36 -20 -22 -20 -38 -23 -2584 -2
                                 -1837 0 -2572 8 -2599 7 -25 22 -45 43 -57 30 -19 53 -20 370 -20 l337 0 38
                                 34 37 34 5 591 5 590 35 37 c44 46 92 67 134 59 24 -6 176 -152 696 -670 407
