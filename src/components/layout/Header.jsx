@@ -1,10 +1,20 @@
 import { useState } from "react";
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header() {
     const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { isLoggedIn, profile } = useSelector(state => state.user);
+    const navigate = useNavigate();
 
+    const handlePublishClick = () => {
+        if (!profile?.telephone) {
+            navigate('/verifyphone', { state: { from: 'publier-annonce' } });
+        } else {
+            navigate('/publier-annonce');
+        }
+    };
 
     return (
         <nav className="bg-white border-gray-200 py-2.5 shadow">
@@ -127,7 +137,7 @@ export default function Header() {
                 </Link>
 
                 <div className="flex items-center lg:order-2">
-                    {isAuthenticated ? (
+                    {isLoggedIn ? (
                         <Link
                             to="/profil"
                             className="text-[#348AC7] font-medium mr-8 hover:underline whitespace-nowrap"
@@ -144,8 +154,8 @@ export default function Header() {
                     )}
 
 
-                    <Link
-                        to="verifyphone"
+                    <button
+                        onClick={handlePublishClick}
                         className="flex items-center gap-2 bg-[#7474BF] borde-2 border-[#7474BF]  text-white font-medium py-2 px-4 rounded-lg hover:bg-[#5f5fcf] transition">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -158,7 +168,7 @@ export default function Header() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
                         </svg>
                         Publier une annonce
-                    </Link>
+                    </button>
 
 
 

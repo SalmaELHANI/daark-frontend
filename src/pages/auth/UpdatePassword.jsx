@@ -1,26 +1,49 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { confirmResetPassword } from '../../store/admin/userSlice';
 
 const UpdatePassword = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const token = queryParams.get('token');
+
+    const { loading, error, successMessage } = useSelector((state) => state.user);
+
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const navigate = useNavigate();
 
-
-    const passwordsMatch =
-        newPassword && confirmPassword && newPassword === confirmPassword;
+    const passwordsMatch = newPassword && confirmPassword && newPassword === confirmPassword;
 
     const handleUpdate = () => {
-        if (passwordsMatch) {
-            alert('Mot de passe mis à jour avec succès !');
-            navigate('/login');
-        } else {
+        if (!passwordsMatch) {
             alert('Les mots de passe ne correspondent pas.');
+            return;
         }
+        if (!token) {
+            alert('Token invalide ou manquant.');
+            return;
+        }
+        dispatch(confirmResetPassword({ token, newPassword }))
+            .unwrap()
+            .then(() => {
+                alert('Mot de passe mis à jour avec succès !');
+                navigate('/login');
+            })
+            .catch(() => {
+                // L’erreur s’affiche via state.error
+            });
     };
+
+    if (!token) {
+        return <p className="text-center text-red-500 mt-10">Lien de réinitialisation invalide ou expiré.</p>;
+    }
+
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center p-4">

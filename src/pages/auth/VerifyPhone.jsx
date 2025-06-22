@@ -1,16 +1,33 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePhoneNumber } from '../../store/admin/userSlice';
 
 const VerifyPhone = () => {
     const [number, setNumber] = useState('');
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { loading, error } = useSelector(state => state.user);
+    const location = useLocation();
     const isValid = /^\d{9}$/.test(number);
 
-    const handleSend = () => {
-        const fullPhone = `+212${number}`;
-        alert(`Code de vérification envoyé au : ${fullPhone}`);
-        navigate('/verify-code-phone', { state: { from: 'verify-phone', phone: fullPhone } });
+    const handleSend = async () => {
+        if (!isValid) return;
+
+        try {
+            const resultAction = await dispatch(updatePhoneNumber(number));
+            if (updatePhoneNumber.fulfilled.match(resultAction)) {
+                alert(`Code de vérification envoyé au : +212${number}`);
+                const from = location.state?.from ; 
+                sessionStorage.setItem('verifyData', JSON.stringify({ from }));
+                navigate('/verify-code-phone');
+            } else {
+
+                alert(resultAction.payload || 'Erreur lors de la mise à jour');
+            }
+        } catch (err) {
+            alert('Erreur inattendue');
+        }
     };
 
     return (
@@ -35,17 +52,20 @@ const VerifyPhone = () => {
                                         const input = e.target.value.replace(/\D/g, '');
                                         setNumber(input);
                                     }}
+                                    disabled={loading}
                                 />
                             </div>
 
+                            {error && <p className="text-red-600 mt-2">{error}</p>}
+
                             <button
                                 onClick={handleSend}
-                                disabled={!isValid}
+                                disabled={!isValid || loading}
                                 className={`mt-4 tracking-wide font-semibold bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white w-full py-4 rounded-lg hover:opacity-90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none
-                                ${!isValid ? 'opacity-50 cursor-not-allowed' : ''}
-                            `}
+                    ${!isValid || loading ? 'opacity-50 cursor-not-allowed' : ''}
+                `}
                             >
-                                Envoyer
+                                {loading ? 'Envoi...' : 'Envoyer'}
                             </button>
                         </div>
                     </div>
