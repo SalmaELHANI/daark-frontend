@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserProfile, logoutUser } from '../../store/admin/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const UserProfile = () => {
     const dispatch = useDispatch();
@@ -52,15 +52,18 @@ const UserProfile = () => {
                             }
                         }}
                     >
-                         {phone ? `0${phone.slice(-9)}` : 'Ajouter numéro'}
+                        {phone ? `0${phone.slice(-9)}` : 'Ajouter numéro'}
                     </p>
 
                     <p className="text-gray-500 mt-1">{email}</p>
 
                     <div className="mt-8 flex justify-center space-x-3">
-                        <button className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
+                        <Link
+                            to="/my-annonces"
+                            className="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+                        >
                             Mes Annonces
-                        </button>
+                        </Link>
                         <button onClick={handleLogout} className="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
                             Se Déconnecter
                         </button>
