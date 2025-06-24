@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/auth';
 
-// Thunk pour login
 export const loginUser = createAsyncThunk(
   '/login',
   async (credentials, thunkAPI) => {
@@ -112,6 +111,21 @@ export const updatePhoneNumber = createAsyncThunk(
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Erreur lors de la mise à jour du téléphone');
+    }
+  }
+);
+
+export const loginWithGoogle = createAsyncThunk(
+  'user/loginWithGoogle',
+  async ({ tokenId, type }, thunkAPI) => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/auth/google', {
+        token: tokenId,
+        type
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data?.message || 'Erreur Google');
     }
   }
 );
@@ -247,7 +261,24 @@ const userSlice = createSlice({
       .addCase(updatePhoneNumber.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || 'Erreur inconnue';
+      })
+      .addCase(loginWithGoogle.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        state.loading = false;
+        state.currentUser = action.payload;
+        state.isLoggedIn = true;
+        if (action.payload.token) {
+          localStorage.setItem("token", action.payload.token);
+        }
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
+
   },
 });
 
