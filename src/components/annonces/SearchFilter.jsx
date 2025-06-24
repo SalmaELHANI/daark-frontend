@@ -1,3 +1,4 @@
+import { useState } from "react";
 
 const villesMaroc = [
     "Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir", "Meknès",
@@ -9,21 +10,42 @@ const typesLogement = [
     "Maison", "Villa", "Studio", "Garsonnière", "Appartement", "Riad", "Duplex"
 ];
 
-const FilterBar = () => {
+const FilterBar = ({ onSearch }) => {
+    const [ville, setVille] = useState("");
+    const [typeLocation, setTypeLocation] = useState("");
+    const [typeLogement, setTypeLogement] = useState("");
+    const [minPrix, setMinPrix] = useState("");
+    const [maxPrix, setMaxPrix] = useState("");
+
+    const handleSearch = () => {
+        const filters = {};
+        if (ville) filters.ville = ville.toLowerCase();
+        if (typeLocation) filters.typeLocation = typeLocation.toLowerCase();
+        if (typeLogement) filters.typeLogement = typeLogement.toLowerCase();
+        if (minPrix) filters.minPrix = minPrix;
+        if (maxPrix) filters.maxPrix = maxPrix;
+
+        onSearch(filters);
+    };
+
     return (
         <div className="mt-6 bg-white border border-gray-300 rounded-lg p-4 max-w-7xl mx-auto shadow-2xl">
             <div className="flex flex-wrap md:flex-nowrap gap-3 items-center">
 
                 <select
+                    value={ville}
+                    onChange={(e) => setVille(e.target.value)}
                     className="flex-grow p-2 border text-gray-800 placeholder-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7474BF] min-w-[150px]"
                 >
                     <option value="">Toutes les villes</option>
-                    {villesMaroc.map((ville, index) => (
-                        <option key={index} value={ville}>{ville}</option>
+                    {villesMaroc.map((v, index) => (
+                        <option key={index} value={v}>{v}</option>
                     ))}
                 </select>
 
                 <select
+                    value={typeLocation}
+                    onChange={(e) => setTypeLocation(e.target.value)}
                     className="w-full md:w-auto p-2 border text-gray-800 placeholder-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7474BF] min-w-[140px]"
                 >
                     <option value="">Type de location</option>
@@ -33,6 +55,8 @@ const FilterBar = () => {
                 </select>
 
                 <select
+                    value={typeLogement}
+                    onChange={(e) => setTypeLogement(e.target.value)}
                     className="w-full md:w-auto p-2 border text-gray-800 placeholder-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7474BF] min-w-[140px]"
                 >
                     <option value="">Type de logement</option>
@@ -43,17 +67,24 @@ const FilterBar = () => {
 
                 <input
                     type="number"
+                    value={minPrix}
+                    onChange={(e) => setMinPrix(e.target.value)}
                     placeholder="Min"
                     className="w-full md:w-[90px] p-2 border text-gray-800 placeholder-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7474BF]"
                 />
 
                 <input
                     type="number"
+                    value={maxPrix}
+                    onChange={(e) => setMaxPrix(e.target.value)}
                     placeholder="Max"
                     className="w-full md:w-[90px] p-2 border text-gray-800 placeholder-gray-500 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7474BF]"
                 />
 
-                <button className="w-full md:w-auto bg-[#7474BF] text-white p-2 px-4 rounded-md hover:bg-[#5b5c9e] flex items-center justify-center">
+                <button
+                    onClick={handleSearch}
+                    className="w-full md:w-auto bg-[#7474BF] text-white p-2 px-4 rounded-md hover:bg-[#5b5c9e] flex items-center justify-center"
+                >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

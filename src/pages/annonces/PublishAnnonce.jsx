@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { createAnnonce, resetAnnonceState } from "../../store/annonce/annonceSlice";
 
 const villesMaroc = [
     "Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir", "Meknès",
@@ -36,7 +38,12 @@ export default function AddAnnonceForm() {
         photos: [],
     });
 
-    const commonInputClass = "w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#7474BF] px-8 py-4 font-medium bg-gray-100 border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white";
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { loading, success, error } = useSelector((state) => state.annonce);
+
+    const commonInputClass =
+        "w-full p-3 border rounded-xl focus:ring-2 focus:ring-[#7474BF] px-8 py-4 font-medium bg-gray-100 border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white";
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files).slice(0, 15);
@@ -61,9 +68,77 @@ export default function AddAnnonceForm() {
         }
     };
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (formData.photos.length < 3 || formData.photos.length > 15) {
+            alert("Tu dois ajouter entre 3 et 15 photos.");
+            return;
+        }
+
+        const data = new FormData();
+
+        // Ajout des photos
+        formData.photos.forEach((photo) => data.append("photos", photo));
+        const safeAppend = (key, val) => {
+            if (val !== '' && val !== null && val !== undefined && !isNaN(val)) {
+                data.append(key, val);
+            }
+        };
+
+        // Champs texte / nombre
+        data.append("ville", formData.ville);
+        data.append("typeLogement", formData.typeLogement);
+        data.append("typeLocation", formData.typeLocation);
+        data.append("adresse", formData.adresse);
+        data.append("description", formData.description);
+
+        safeAppend("prix", parseInt(formData.prix));
+        safeAppend("chambres", parseInt(formData.chambres));
+        safeAppend("salons", parseInt(formData.salons));
+        safeAppend("sallesBain", parseInt(formData.sallesBain));
+        safeAppend("superficie", parseInt(formData.superficie));
+        safeAppend("etage", parseInt(formData.etage));
+
+        data.append("meuble", formData.meuble ? "true" : "false");
+        data.append("nonFumeur", formData.conditions.nonFumeur ? "true" : "false");
+        data.append("animaux", formData.conditions.animaux ? "true" : "false");
+        data.append("caution", formData.conditions.caution ? "true" : "false");
+
+
+        // Debug
+        for (let pair of data.entries()) {
+            if (pair[1] instanceof File) {
+                console.log(`${pair[0]}:`, pair[1].name);
+            } else {
+                console.log(`${pair[0]}:`, pair[1]);
+            }
+        }
+
+
+        dispatch(createAnnonce(data));
+    };
+
+
+
+
+    useEffect(() => {
+        if (success) {
+            alert("Annonce publiée !");
+            dispatch(resetAnnonceState());
+            navigate("/my-annonces");
+        } else if (error) {
+            alert("Erreur : " + error);
+            dispatch(resetAnnonceState());
+        }
+    }, [success, error, dispatch, navigate]);
+
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center p-14">
-            <form className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl space-y-5">
+            <form
+                onSubmit={handleSubmit}
+                className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl space-y-5"
+            >
                 <h2 className="text-2xl font-semibold text-center text-gray-700">Ajouter une annonce</h2>
 
                 <select name="ville" value={formData.ville} onChange={handleChange} required className={commonInputClass}>
@@ -157,9 +232,13 @@ export default function AddAnnonceForm() {
                     )}
                 </div>
 
-                <Link to="/my-annonces" className="block w-full bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white py-3 rounded-xl font-semibold text-center">
-                    Publier l’annonce
-                </Link>
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="block w-full bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white py-3 rounded-xl font-semibold text-center"
+                >
+                    {loading ? "Publication en cours..." : "Publier l’annonce"}
+                </button>
             </form>
         </div>
     );

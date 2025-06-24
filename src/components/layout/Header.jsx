@@ -9,7 +9,9 @@ export default function Header() {
     const navigate = useNavigate();
 
     const handlePublishClick = () => {
-        if (!profile?.telephone) {
+        if (!isLoggedIn) {
+            navigate('/login');
+        } else if (!profile?.telephone) {
             navigate('/verifyphone', { state: { from: 'publier-annonce' } });
         } else {
             navigate('/publier-annonce');
