@@ -35,6 +35,7 @@ function App() {
         <Route path="/verify-code-phone" element={<VerifyCodePhone />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/my-annonces" element={<MyAnnonces />} />
+        <Route path="/annonce/:id" element={<AnnonceDetailsPage />} />
         <Route path="/confirm-email" element={<ConfirmEmail />} />
       </Routes>
       <Footer />
