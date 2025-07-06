@@ -8,8 +8,6 @@ import GoogleAuthButton from '../../components/GoogleAuthButton';
 const RegisterForm = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading, error, successMessage } = useSelector(state => state.user);
-
     const [RegisterData, setRegisterData] = useState({
         firstName: "",
         lastName: "",
@@ -160,8 +158,6 @@ const RegisterForm = () => {
                                 value={RegisterData.email}
                                 onChange={handleChange}
                             />
-
-                            {/* Password avec œil */}
                             <div className="relative mb-4">
                                 <input
                                     type={showPassword ? 'text' : 'password'}
@@ -180,7 +176,6 @@ const RegisterForm = () => {
                                 </button>
                             </div>
 
-                            {/* Confirm Password avec œil */}
                             <div className="relative mb-4">
                                 <input
                                     type={showConfirmPassword ? 'text' : 'password'}

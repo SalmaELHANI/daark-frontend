@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Thunk pour créer une annonce
 export const createAnnonce = createAsyncThunk(
     "annonce/createAnnonce",
     async (formData, { rejectWithValue }) => {
@@ -41,7 +40,7 @@ export const fetchUserAnnonces = createAsyncThunk(
                     Authorization: `Bearer ${token}`,
                 },
             });
-            return response.data; // liste des annonces
+            return response.data; 
         } catch (error) {
             const message =
                 error.response?.data?.message ||
@@ -53,7 +52,6 @@ export const fetchUserAnnonces = createAsyncThunk(
     }
 );
 
-// Supprimer une annonce
 export const deleteAnnonce = createAsyncThunk(
     "annonce/deleteAnnonce",
     async (id, { rejectWithValue }) => {
@@ -76,7 +74,6 @@ export const deleteAnnonce = createAsyncThunk(
     }
 );
 
-// Supprimer toutes les annonces
 export const deleteAllUserAnnonces = createAsyncThunk(
     "annonce/deleteAllUserAnnonces",
     async (_, { rejectWithValue }) => {
@@ -99,7 +96,6 @@ export const deleteAllUserAnnonces = createAsyncThunk(
     }
 );
 
-// Thunk pour récupérer une annonce par ID
 export const fetchAnnonceById = createAsyncThunk(
     "annonce/fetchAnnonceById",
     async (id, { rejectWithValue }) => {
@@ -111,7 +107,7 @@ export const fetchAnnonceById = createAsyncThunk(
         }
     }
 );
-// Récupérer toutes les annonces avec statut ACCEPTEE
+
 export const fetchAcceptedAnnonces = createAsyncThunk(
     "annonce/fetchAcceptedAnnonces",
     async (params = {}, { rejectWithValue }) => {
@@ -124,8 +120,6 @@ export const fetchAcceptedAnnonces = createAsyncThunk(
         }
     }
 );
-
-//Admin
 
 export const fetchAllAnnoncesAdmin = createAsyncThunk(
     'annonces/fetchAllAdmin',
@@ -281,7 +275,7 @@ const annonceSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-            // fetchPendingAnnonces
+           
             .addCase(fetchPendingAnnonces.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -295,7 +289,7 @@ const annonceSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // updateAnnonceStatus
+           
             .addCase(updateAnnonceStatus.pending, (state) => {
                 state.loading = true;
                 state.error = null;
@@ -318,7 +312,7 @@ const annonceSlice = createSlice({
                 state.error = action.payload;
             })
 
-        // fetchAnnoncesByUserId
+        
         .addCase(fetchAnnoncesByUserId.pending, (state) => {
             state.loading = true;
             state.error = null;

@@ -23,7 +23,7 @@ export default function AboutSection() {
                     disposition les meilleures offres, adaptées à vos besoins et à votre budget.
                     Notre mission est de simplifier votre recherche et de vous accompagner dans chaque étape de votre location.
                 </p>
-                <Link to="/advantages">
+                <Link to="/advantages" onClick={() => window.scrollTo({ top: 0 })}>
                     <button className="mt-4 bg-[#348AC7] text-white px-5 py-2 rounded-md text-sm font-medium hover:bg-[#348ac7cb] transition">
                         Nos avantages
                     </button>

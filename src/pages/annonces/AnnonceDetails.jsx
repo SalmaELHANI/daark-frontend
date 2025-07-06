@@ -91,7 +91,7 @@ export default function AnnonceDetailsPage() {
 
                     <div className="pt-4">
                         <p className="text-sm text-gray-500">
-                            Pour plus d'informations, contactez : <span className="font-semibold">{profile?.telephone ? `0${profile.telephone.slice(-9)}` : "N/A"}</span>
+                            Pour plus d'informations, contactez : <span className="font-semibold">{annonce.telephone ? `0${annonce.telephone.slice(-9)}` : "N/A"}</span>
                         </p>
 
                     </div>

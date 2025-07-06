@@ -1,7 +1,4 @@
-import { useState } from "react";
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 export default function HeaderAdmin() {
 
@@ -138,7 +135,7 @@ export default function HeaderAdmin() {
                         className="flex items-center px-8 gap-2 bg-[#7474BF] borde-2 border-[#7474BF]  text-white font-medium py-2 rounded-lg hover:bg-[#5f5fcf] transition">
                         Profile
                     </Link>
-                    
+
                 </div>
             </div>
         </nav>
