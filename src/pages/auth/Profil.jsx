@@ -15,6 +15,7 @@ const UserProfile = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('role');
         dispatch(logoutUser());
         navigate('/');
     };
@@ -28,6 +29,7 @@ const UserProfile = () => {
     const phone = profile.telephone;
     const email = profile.email;
     const initials = `${firstName[0] || ''}${lastName[0] || ''}`.toUpperCase();
+    const isAdmin = localStorage.getItem('role') === 'ADMIN';
 
     return (
         <div className="flex items-center justify-center min-h-screen p-2 bg-gray-100">
@@ -52,18 +54,39 @@ const UserProfile = () => {
                             }
                         }}
                     >
-                        {phone ? `0${phone.slice(-9)}` : 'Ajouter numéro'}
+                        {!isAdmin ? (
+                            <p
+                                className={`font-medium ${phone ? 'text-indigo-600' : 'text-gray-400 italic cursor-pointer hover:underline'
+                                    }`}
+                                onClick={() => {
+                                    if (!phone) {
+                                        navigate('/verifyphone', { state: { from: 'profile' } });
+                                    }
+                                }}
+                            >
+                                {phone ? `0${phone.slice(-9)}` : 'Ajouter numéro'}
+                            </p>
+                        ) : null}
                     </p>
 
                     <p className="text-gray-500 mt-1">{email}</p>
 
                     <div className="mt-8 flex justify-center space-x-3">
-                        <Link
-                            to="/my-annonces"
-                            className="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out"
-                        >
-                            Mes Annonces
-                        </Link>
+                        {isAdmin ? (
+                            <Link
+                                to="/dashboard"
+                                className="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <Link
+                                to="/my-annonces"
+                                className="flex-1 text-center bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out"
+                            >
+                                Mes Annonces
+                            </Link>
+                        )}
                         <button onClick={handleLogout} className="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg transition duration-150 ease-in-out">
                             Se Déconnecter
                         </button>

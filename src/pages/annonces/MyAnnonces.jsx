@@ -1,15 +1,23 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserAnnonces, deleteAnnonce,deleteAllUserAnnonces } from "../../store/annonce/annonceSlice";
+import { fetchUserAnnonces, deleteAnnonce,deleteAllUserAnnonces, fetchAnnoncesByUserId  } from "../../store/annonce/annonceSlice";
 import CardAnnonce from "../../components/annonces/CardMyAnnonce";
+import { useParams } from "react-router-dom";
 
-const MyAnnonces = () => {
+const MyAnnonces = ({ isAdminView = false }) => {
     const dispatch = useDispatch();
     const { annonces, loading, error } = useSelector((state) => state.annonce);
+    const { userId } = useParams();
+    console.log(userId)
 
     useEffect(() => {
-        dispatch(fetchUserAnnonces());
-    }, [dispatch]);
+  if (isAdminView && userId) {
+    dispatch(fetchAnnoncesByUserId(userId));
+  } else {
+    dispatch(fetchUserAnnonces());
+  }
+}, [dispatch, isAdminView, userId]);
+
 
     const supprimerAnnonce = (id) => {
         dispatch(deleteAnnonce(id));
@@ -25,11 +33,12 @@ const MyAnnonces = () => {
     if (loading) return <p>Chargement des annonces...</p>;
     if (error) return <p className="text-red-500">Erreur : {error}</p>;
 
+    
     return (
         <div className="min-h-screen bg-white p-4 flex flex-col items-center text-center">
             <div className="max-w-screen-xl w-full">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6">
-                    Annonces de maisons à louer
+                     {isAdminView ? "Annonces du client" : "Mes annonces"}
                 </h1>
 
                 {annonces.length > 0 && (

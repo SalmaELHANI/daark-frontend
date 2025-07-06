@@ -15,12 +15,18 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
+    const role = localStorage.getItem('role')
 
     const handleLogin = async (e) => {
         e.preventDefault();
         const resultAction = await dispatch(loginUser(LoginData));
         if (loginUser.fulfilled.match(resultAction)) {
-            navigate('/');
+            const role = localStorage.getItem('role'); 
+            if (role === 'ADMIN') {
+                navigate('/dashboard');
+            } else {
+                navigate('/');
+            }
         }
     };
 

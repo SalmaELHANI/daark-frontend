@@ -6,7 +6,7 @@ import { createAnnonce, resetAnnonceState } from "../../store/annonce/annonceSli
 const villesMaroc = [
     "Casablanca", "Rabat", "Marrakech", "Fès", "Tanger", "Agadir", "Meknès",
     "Oujda", "Kenitra", "Tétouan", "Safi", "El Jadida", "Beni Mellal",
-    "Khouribga", "Nador", "Settat",
+    "Khouribga", "Nador", "Settat", "Bouznika"
 ];
 
 const typesLogement = [
