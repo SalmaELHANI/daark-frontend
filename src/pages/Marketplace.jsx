@@ -5,29 +5,36 @@ import { fetchAcceptedAnnonces } from "../store/annonce/annonceSlice";
 import AnnonceHero from "../components/annonces/AnnonceHero";
 
 const Marketplace = () => {
-  const dispatch = useDispatch();
-  const { acceptedAnnonces, loading } = useSelector((state) => state.annonce);
+    const dispatch = useDispatch();
+    const { acceptedAnnonces, loading } = useSelector((state) => state.annonce);
 
-  useEffect(() => {
-    dispatch(fetchAcceptedAnnonces());
-  }, [dispatch]);
+    useEffect(() => {
+        dispatch(fetchAcceptedAnnonces());
 
-  return (
-    <div className="relative">
-      <AnnonceHero
-        title="Parcourez toutes les annonces"
-        subtitle="Trouvez le logement idéal selon votre ville, votre budget et vos préférences."
-      />
+        const scrollPos = sessionStorage.getItem("homeScrollPosition");
+        if (scrollPos) {
+            window.scrollTo(0, parseInt(scrollPos, 10));
+            sessionStorage.removeItem("homeScrollPosition");
+        }
+    }, [dispatch]);
 
-      <div className="mt-12">
-        {loading ? (
-          <p className="text-center">Chargement...</p>
-        ) : (
-          <Cards data={acceptedAnnonces} />
-        )}
-      </div>
-    </div>
-  );
+
+    return (
+        <div className="relative">
+            <AnnonceHero
+                title="Parcourez toutes les annonces"
+                subtitle="Trouvez le logement idéal selon votre ville, votre budget et vos préférences."
+            />
+
+            <div className="mt-12">
+                {loading ? (
+                    <p className="text-center">Chargement...</p>
+                ) : (
+                    <Cards data={acceptedAnnonces} />
+                )}
+            </div>
+        </div>
+    );
 };
 
 export default Marketplace;

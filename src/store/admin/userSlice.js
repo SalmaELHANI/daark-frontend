@@ -15,12 +15,10 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// Thunk pour logout
 export const logoutUser = createAsyncThunk('user/logout', async () => {
   return true;
 });
 
-// Thunk pour demander la réinitialisation du mot de passe
 export const requestResetPassword = createAsyncThunk(
   'user/requestResetPassword',
   async (email, thunkAPI) => {
@@ -153,7 +151,6 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // login
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -175,13 +172,11 @@ const userSlice = createSlice({
         state.error = action.payload;
       })
 
-      // logout
       .addCase(logoutUser.fulfilled, (state) => {
         state.currentUser = null;
         state.isLoggedIn = false;
       })
 
-      // demande reset password
       .addCase(requestResetPassword.pending, (state) => {
         state.loading = true;
         state.error = null;

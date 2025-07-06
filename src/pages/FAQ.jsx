@@ -1,5 +1,3 @@
-import React from "react";
-
 const questionsTechniques = [
   {
     question: "Comment créer un compte sur Daark ?",
@@ -68,7 +66,6 @@ const FAQ = () => {
       </div>
 
       <div className="px-10 sm:px-16">
-        {/* Section Technique */}
         <div className="py-3 uppercase text-sm text-gray-500 font-medium">Technique</div>
         <div className="ml-5">
           {questionsTechniques.map(({ question, reponse }, index) => (
@@ -100,7 +97,6 @@ const FAQ = () => {
           ))}
         </div>
 
-        {/* Section Facturation */}
         <div className="py-3 uppercase text-sm text-gray-500 font-medium">Facturation</div>
         <div className="ml-5">
           {questionsFacturation.map(({ question, reponse }, index) => (

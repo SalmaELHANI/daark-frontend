@@ -36,7 +36,7 @@ const UpdatePassword = () => {
                 navigate('/login');
             })
             .catch(() => {
-                // L’erreur s’affiche via state.error
+                setLocalError("Erreur lors de la mise à jour du mot de passe.");
             });
     };
 

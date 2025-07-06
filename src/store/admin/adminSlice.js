@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080/api/user';
 
-// 🔄 Thunk pour récupérer tous les utilisateurs
 export const fetchAllUsers = createAsyncThunk(
   'admin/fetchAllUsers',
   async (_, { rejectWithValue }) => {
@@ -21,7 +20,6 @@ export const fetchAllUsers = createAsyncThunk(
   }
 );
 
-// 🗑️ Thunk pour supprimer un utilisateur par ID
 export const deleteUserById = createAsyncThunk(
   'admin/deleteUserById',
   async (userId, { rejectWithValue }) => {
@@ -39,7 +37,7 @@ export const deleteUserById = createAsyncThunk(
   }
 );
 
-// 🧠 Slice Admin
+
 const adminSlice = createSlice({
   name: 'admin',
   initialState: {
@@ -56,7 +54,6 @@ const adminSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch all users
       .addCase(fetchAllUsers.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -70,7 +67,6 @@ const adminSlice = createSlice({
         state.error = action.payload;
       })
 
-      // Delete user
       .addCase(deleteUserById.fulfilled, (state, action) => {
         state.users = state.users.filter((user) => user.id !== action.payload);
         state.successMessage = 'Utilisateur supprimé avec succès';

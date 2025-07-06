@@ -78,7 +78,6 @@ export default function AddAnnonceForm() {
 
         const data = new FormData();
 
-        // Ajout des photos
         formData.photos.forEach((photo) => data.append("photos", photo));
         const safeAppend = (key, val) => {
             if (val !== '' && val !== null && val !== undefined && !isNaN(val)) {
@@ -86,7 +85,6 @@ export default function AddAnnonceForm() {
             }
         };
 
-        // Champs texte / nombre
         data.append("ville", formData.ville);
         data.append("typeLogement", formData.typeLogement);
         data.append("typeLocation", formData.typeLocation);
@@ -105,8 +103,6 @@ export default function AddAnnonceForm() {
         data.append("animaux", formData.conditions.animaux ? "true" : "false");
         data.append("caution", formData.conditions.caution ? "true" : "false");
 
-
-        // Debug
         for (let pair of data.entries()) {
             if (pair[1] instanceof File) {
                 console.log(`${pair[0]}:`, pair[1].name);
@@ -114,13 +110,8 @@ export default function AddAnnonceForm() {
                 console.log(`${pair[0]}:`, pair[1]);
             }
         }
-
-
         dispatch(createAnnonce(data));
     };
-
-
-
 
     useEffect(() => {
         if (success) {

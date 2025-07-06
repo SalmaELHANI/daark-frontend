@@ -8,16 +8,12 @@ const GoogleAuthButton = ({ type = 'signup', onSuccess }) => {
   const handleGoogleResponse = async (response) => {
     if (response.credential) {
       const tokenId = response.credential;
-      const profile = jwtDecode(tokenId); // Utile si tu veux l'afficher
 
       try {
         const result = await dispatch(loginWithGoogle({ tokenId, type }));
 
         if (loginWithGoogle.fulfilled.match(result)) {
-          // Récupérer le profil complet si besoin
           await dispatch(getUserProfile());
-
-          // Appel callback
           onSuccess && onSuccess();
         } else {
           alert(result.payload || "Échec de la connexion avec Google.");

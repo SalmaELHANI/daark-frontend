@@ -76,19 +76,16 @@ const Footer = () => {
                         </div>
                         <p className="text-white opacity-80">Construire des solutions innovantes pour un monde moderne.</p>
                         <div className="flex space-x-4 mt-4">
-                            {/* Facebook */}
                             <a href="https://www.facebook.com/daark" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-white transition">
                                 <svg fill="currentColor" viewBox="0 0 24 24" className="h-6 w-6 text-white rounded-md" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M22.675 0h-21.35C.597 0 0 .597 0 1.333v21.334C0 23.403.597 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.658-4.788 1.325 0 2.464.099 2.795.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.313h3.588l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.667V1.333C24 .597 23.403 0 22.675 0z" />
                                 </svg>
                             </a>
-                            {/* Twitter */}
                             <a href="https://twitter.com/daark" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-white transition">
                                 <svg fill="currentColor" viewBox="0 0 24 24" className="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M23.954 4.569c-.885.39-1.83.654-2.825.775a4.932 4.932 0 002.163-2.724 9.86 9.86 0 01-3.127 1.195 4.916 4.916 0 00-8.38 4.482A13.955 13.955 0 011.671 3.15a4.916 4.916 0 001.523 6.56 4.897 4.897 0 01-2.228-.616c-.054 2.281 1.581 4.415 3.949 4.89a4.936 4.936 0 01-2.224.084 4.919 4.919 0 004.59 3.42A9.867 9.867 0 010 19.54a13.94 13.94 0 007.548 2.209c9.058 0 14.01-7.513 14.01-14.02 0-.213-.005-.425-.015-.637A10.012 10.012 0 0024 4.59z" />
                                 </svg>
                             </a>
-                            {/* Instagram */}
                             <a href="https://www.instagram.com/daark" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="hover:text-white transition">
                                 <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" className="h-6 w-6 text-white " xmlns="http://www.w3.org/2000/svg">
                                     <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -96,7 +93,6 @@ const Footer = () => {
                                     <line x1="17.5" y1="6.5" x2="17.5" y2="6.5" />
                                 </svg>
                             </a>
-                            {/* LinkedIn */}
                             <a href="https://www.linkedin.com/company/daark" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-white transition">
                                 <svg fill="currentColor" viewBox="0 0 24 24" className="h-6 w-6 text-white rounded-md" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M20.447 20.452h-3.554v-5.569c0-1.327-.027-3.037-1.852-3.037-1.854 0-2.137 1.447-2.137 2.942v5.664H9.351V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.368-1.85 3.604 0 4.269 2.371 4.269 5.455v6.286zM5.337 7.433a2.07 2.07 0 11.001-4.14 2.07 2.07 0 01-.001 4.14zm1.777 13.019H3.559V9h3.555v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.726v20.548C0 23.228.792 24 1.771 24h20.451C23.2 24 24 23.228 24 22.274V1.726C24 .774 23.2 0 22.225 0z" />

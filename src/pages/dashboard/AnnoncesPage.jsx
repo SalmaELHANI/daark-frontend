@@ -42,7 +42,7 @@ function AnnoncesPage() {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cette annonce ?")) {
       try {
         await dispatch(deleteAnnonce(id));
-        await dispatch(fetchAllAnnoncesAdmin()); // recharger les annonces
+        await dispatch(fetchAllAnnoncesAdmin()); 
       } catch (error) {
         console.error("Erreur suppression annonce:", error);
       }

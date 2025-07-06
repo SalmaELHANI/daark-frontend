@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import AnnoncesPage from './AnnoncesPage';
-import UsersPage from './UsersPage';  // importe ta page Users
+import UsersPage from './UsersPage'; 
 
 function Dashboard() {
-  const [currentPage, setCurrentPage] = useState('users'); // 'users' par défaut pour afficher la liste
+  const [currentPage, setCurrentPage] = useState('users');
 
   const renderContent = () => {
     switch (currentPage) {
@@ -18,7 +18,7 @@ function Dashboard() {
 
   return (
     <div className="flex min-h-screen bg-gray-200">
-      {/* Sidebar */}
+     
       <aside className="w-64 bg-white rounded-xl shadow-sm border border-gray-200 flex flex-col justify-between my-6 ml-4">
         <div>
           <div className="p-6 font-bold text-[#7175B6] text-2xl">Tableau de bord</div>
@@ -41,7 +41,7 @@ function Dashboard() {
         </div>
       </aside>
 
-      {/* Main Content */}
+      
       <div className="flex-1 flex flex-col">
         <main className="p-6 space-y-6">{renderContent()}</main>
       </div>

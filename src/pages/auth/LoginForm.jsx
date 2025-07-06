@@ -15,7 +15,6 @@ const LoginForm = () => {
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false);
-    const role = localStorage.getItem('role')
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -29,8 +28,6 @@ const LoginForm = () => {
             }
         }
     };
-
-
 
     return (
         <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center items-center p-4">
@@ -106,7 +103,6 @@ const LoginForm = () => {
 
                     <div className="w-full flex-1 mt-8">
                         <div className="mx-auto max-w-xs">
-                            {/* Champ Email */}
                             <input
                                 className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
                                 type="email"
@@ -115,7 +111,6 @@ const LoginForm = () => {
                                 onChange={(e) => setLoginData({ ...LoginData, email: e.target.value })}
                             />
 
-                            {/* Champ Password avec icône œil */}
                             <div className="relative mt-5">
                                 <input
                                     className="w-full px-8 py-4 pr-12 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
@@ -148,7 +143,6 @@ const LoginForm = () => {
                                 </div>
                             )}
 
-                            {/* Bouton Log In */}
                             <button onClick={handleLogin} disabled={loading} className="mt-5 tracking-wide font-semibold bg-gradient-to-r from-[#7474BF] to-[#348AC7] text-white w-full py-4 rounded-lg hover:opacity-90 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
