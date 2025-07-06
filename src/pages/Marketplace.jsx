@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Cards from "./annonces/Cards";
 import { fetchAcceptedAnnonces } from "../store/annonce/annonceSlice";
-import AboutSection from "../components/AboutSection";
 import AnnonceHero from "../components/annonces/AnnonceHero";
 
-const Home = () => {
+const Marketplace = () => {
   const dispatch = useDispatch();
   const { acceptedAnnonces, loading } = useSelector((state) => state.annonce);
 
@@ -16,8 +15,8 @@ const Home = () => {
   return (
     <div className="relative">
       <AnnonceHero
-        title="Recherchez selon vos besoins"
-        subtitle="Explorez, trouvez, emménagez. Votre nouveau chez-vous vous attend."
+        title="Parcourez toutes les annonces"
+        subtitle="Trouvez le logement idéal selon votre ville, votre budget et vos préférences."
       />
 
       <div className="mt-12">
@@ -27,10 +26,8 @@ const Home = () => {
           <Cards data={acceptedAnnonces} />
         )}
       </div>
-
-      <AboutSection />
     </div>
   );
 };
 
-export default Home;
+export default Marketplace;

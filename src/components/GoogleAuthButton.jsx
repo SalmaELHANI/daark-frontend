@@ -35,7 +35,7 @@ const GoogleAuthButton = ({ type = 'signup', onSuccess }) => {
     }
 
     window.google.accounts.id.initialize({
-      client_id: "407977946921-vcj7b9cp49qttibgmimdik92ad4ml7n6.apps.googleusercontent.com",
+      client_id: "407977946921-n08n33onbeaihnsauhcboseo8hcj49a6.apps.googleusercontent.com",
       callback: handleGoogleResponse,
       ux_mode: "popup"
     });

@@ -116,7 +116,7 @@ export const fetchAcceptedAnnonces = createAsyncThunk(
     "annonce/fetchAcceptedAnnonces",
     async (params = {}, { rejectWithValue }) => {
         try {
-            const query = new URLSearchParams(params).toString(); // convertir les paramètres
+            const query = new URLSearchParams(params).toString();
             const res = await axios.get(`http://localhost:8080/api/annonces/public?${query}`);
             return res.data;
         } catch (error) {
@@ -125,10 +125,86 @@ export const fetchAcceptedAnnonces = createAsyncThunk(
     }
 );
 
+//Admin
+
+export const fetchAllAnnoncesAdmin = createAsyncThunk(
+    'annonces/fetchAllAdmin',
+    async (_, thunkAPI) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get('http://localhost:8080/api/annonces/all', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return thunkAPI.rejectWithValue(error.response?.data || 'Erreur serveur');
+        }
+    }
+);
+
+export const updateAnnonceStatus = createAsyncThunk(
+    "annonce/updateAnnonceStatus",
+    async ({ id, statut }, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            await axios.put(
+                `http://localhost:8080/api/annonces/statut/${id}`,
+                { statut },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            return { id, statut };
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Erreur changement de statut");
+        }
+    }
+);
+
+export const fetchPendingAnnonces = createAsyncThunk(
+    "annonce/fetchPendingAnnonces",
+    async (_, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.get("http://localhost:8080/api/annonces/en-attente", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Erreur chargement annonces en attente");
+        }
+    }
+);
+
+export const fetchAnnoncesByUserId = createAsyncThunk(
+    "annonce/fetchAnnoncesByUserId",
+    async (userId, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem("token");
+            const res = await axios.get(`http://localhost:8080/api/annonces/user/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Erreur récupération annonces utilisateur");
+        }
+    }
+);
+
+
 const annonceSlice = createSlice({
     name: "annonce",
     initialState: {
         annonces: [],
+        allAnnonces: [],
         annonceDetails: null,
         acceptedAnnonces: [],
         loading: false,
@@ -141,6 +217,9 @@ const annonceSlice = createSlice({
             state.success = false;
             state.error = null;
             state.annonces = [];
+            state.allAnnonces = [];
+            state.annonceDetails = null;
+            state.acceptedAnnonces = [];
         },
     },
     extraReducers: (builder) => {
@@ -202,8 +281,69 @@ const annonceSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            // fetchPendingAnnonces
+            .addCase(fetchPendingAnnonces.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchPendingAnnonces.fulfilled, (state, action) => {
+                state.loading = false;
+                state.annonces = action.payload;
+            })
+            .addCase(fetchPendingAnnonces.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
 
-    },
+            // updateAnnonceStatus
+            .addCase(updateAnnonceStatus.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateAnnonceStatus.fulfilled, (state, action) => {
+                state.loading = false;
+
+                const index1 = state.annonces.findIndex((a) => a.id === action.payload.id);
+                if (index1 !== -1) {
+                    state.annonces[index1].statut = action.payload.statut;
+                }
+
+                const index2 = state.allAnnonces.findIndex((a) => a.id === action.payload.id);
+                if (index2 !== -1) {
+                    state.allAnnonces[index2].statut = action.payload.statut;
+                }
+            })
+            .addCase(updateAnnonceStatus.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+        // fetchAnnoncesByUserId
+        .addCase(fetchAnnoncesByUserId.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchAnnoncesByUserId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.annonces = action.payload;
+        })
+        .addCase(fetchAnnoncesByUserId.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        })
+        .addCase(fetchAllAnnoncesAdmin.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchAllAnnoncesAdmin.fulfilled, (state, action) => {
+            state.loading = false;
+            state.allAnnonces = action.payload;
+        })
+        .addCase(fetchAllAnnoncesAdmin.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload || 'Erreur lors du chargement';
+        });
+},
 });
 
 export const { resetAnnonceState } = annonceSlice.actions;
